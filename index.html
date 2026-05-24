@@ -43,11 +43,15 @@
             .dashboard { padding: 0 15px; margin: 20px auto; }
             .auth-container { margin: 40px 15px; padding: 25px; }
             h1 { font-size: 1.5rem; }
+            .chat-split-container { flex-direction: column; }
         }
 
         /* Navigation */
         nav { background: white; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); letter-spacing: -1px; cursor: pointer; }
+        .logo-container { display: flex; align-items: center; gap: 15px; }
+        .sidebar-toggle-btn { font-size: 1.25rem; color: var(--text-main); cursor: pointer; background: none; border: none; outline: none; padding: 5px; display: inline-flex; align-items: center; justify-content: center; transition: color 0.2s; }
+        .sidebar-toggle-btn:hover { color: var(--primary); }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); letter-spacing: -1px; cursor: pointer; display: flex; align-items: center; }
 
         /* Auth Container */
         .auth-container { max-width: 420px; margin: 60px auto; padding: 40px; background: white; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
@@ -60,9 +64,33 @@
         .divider:not(:empty)::before { margin-right: .5em; }
         .divider:not(:empty)::after { margin-left: .5em; }
 
+        /* Auth Disclaimer Box */
+        .auth-disclaimer { margin-top: 20px; padding: 12px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; color: #b45309; font-size: 0.8rem; line-height: 1.4; text-align: left; display: flex; gap: 8px; align-items: flex-start; }
+        .auth-disclaimer i { margin-top: 2px; }
+
+        /* Slideout Sidebar Navigation Layout */
+        .app-sidebar { position: fixed; top: 0; left: -340px; width: 340px; height: 100vh; background: #ffffff; box-shadow: 5px 0 25px rgba(0,0,0,0.1); z-index: 999; transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1); padding: 90px 24px 30px 24px; display: flex; flex-direction: column; gap: 25px; overflow-y: auto; }
+        .app-sidebar.open { left: 0; }
+        .sidebar-close-btn { position: absolute; top: 20px; right: 24px; background: #f1f5f9; border: none; font-size: 1.1rem; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-main); transition: 0.2s; }
+        .sidebar-close-btn:hover { background: #e2e8f0; color: var(--error); }
+        .sidebar-section { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; }
+        .sidebar-section h3 { font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .sidebar-friend-input-group { display: flex; gap: 8px; margin-top: 8px; }
+        .sidebar-friend-input-group input { padding: 8px 12px; font-size: 0.9rem; }
+        .sidebar-friend-input-group .btn { padding: 8px 16px; font-size: 0.9rem; width: auto; }
+        
+        .request-list, .friend-list { list-style: none; margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+        .request-item, .friend-item { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem; }
+        .friend-item { cursor: pointer; transition: 0.2s; position: relative; }
+        .friend-item:hover { border-color: var(--primary); background: #f0f7ff; }
+        .request-item-meta { font-weight: 600; color: var(--text-main); word-break: break-all; }
+        .request-item-uid { font-size: 0.75rem; color: var(--text-muted); font-family: monospace; }
+        .request-item-actions { display: flex; gap: 6px; margin-top: 4px; }
+        .request-item-actions .btn { padding: 4px 10px; font-size: 0.75rem; border-radius: 4px; }
+
         /* Dashboard & Profile Layout */
         .dashboard { max-width: 800px; margin: 40px auto; padding: 0 20px; }
-        .profile-card { background: white; padding: 35px; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-top: 5px solid var(--primary); }
+        .profile-card { background: white; padding: 35px; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-top: 5px solid var(--primary); margin-bottom: 30px; }
         
         .profile-avatar-container { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; position: relative; }
         .profile-pic { width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 4px solid white; box-shadow: 0 4px 14px rgba(0,0,0,0.1); background: #f1f5f9; margin-bottom: 15px; }
@@ -71,6 +99,27 @@
         .upload-btn-wrapper { margin-top: 5px; }
         .uploadcare--widget__button_type_open { background: #f1f5f9 !important; color: var(--text-main) !important; border: 1px solid #cbd5e1 !important; }
 
+        /* Chat Hub Engine Component Workspace */
+        .chat-space-card { background: white; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-top: 5px solid #10b981; overflow: hidden; display: flex; flex-direction: column; margin-top: 30px; }
+        .chat-space-header { padding: 20px 25px; background: #ffffff; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .chat-space-header-meta h4 { font-size: 1.1rem; font-weight: 700; color: var(--text-main); }
+        .chat-space-header-meta p { font-size: 0.75rem; color: var(--text-muted); font-family: monospace; }
+        .chat-space-header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .chat-space-header-actions .btn { padding: 6px 12px; font-size: 0.8rem; border-radius: 6px; }
+        .chat-space-log { height: 350px; overflow-y: auto; padding: 25px; background: #f8fafc; display: flex; flex-direction: column; gap: 14px; }
+        
+        .msg-bubble { max-width: 75%; padding: 12px 16px; border-radius: 12px; font-size: 0.9rem; line-height: 1.4; position: relative; display: flex; flex-direction: column; gap: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
+        .msg-bubble.incoming { background: #ffffff; color: var(--text-main); align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #e2e8f0; }
+        .msg-bubble.outgoing { background: var(--primary); color: #ffffff; align-self: flex-end; border-bottom-right-radius: 2px; }
+        .msg-bubble-meta { font-size: 0.7rem; opacity: 0.7; text-align: right; }
+        .msg-bubble img { max-width: 100%; border-radius: 8px; margin-top: 5px; display: block; border: 1px solid rgba(0,0,0,0.05); }
+        
+        .chat-typing-indicator-bar { padding: 6px 25px; background: #f1f5f9; font-size: 0.75rem; font-weight: 500; color: var(--primary); min-height: 28px; border-bottom: 1px solid #e2e8f0; font-style: italic; }
+        .chat-space-footer { padding: 15px 25px; background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; gap: 10px; align-items: center; }
+        .chat-space-footer input { flex: 1; padding: 12px; font-size: 0.95rem; }
+        .chat-space-footer .chat-image-uploader-btn-wrapper .uploadcare--widget { display: inline-block; vertical-align: middle; }
+        .chat-space-footer .uploadcare--widget__button_type_open { padding: 11px 14px !important; background: #f1f5f9 !important; border-radius: 8px !important; border: 1px solid #cbd5e1 !important; height: 45px; display: flex; align-items: center; justify-content: center; }
+        
         /* Toasts */
         #toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 9999; }
         .toast { background: white; color: var(--text-main); padding: 16px 24px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin-top: 10px; display: flex; align-items: center; gap: 12px; min-width: 300px; border-left: 4px solid var(--primary); animation: slideInRight 0.3s ease-out forwards; }
@@ -97,12 +146,47 @@
 
     <!-- Navigation Header -->
     <nav>
-        <div class="logo"><i class="fas fa-arrow-trend-up" style="margin-right: 10px;"></i> Elevate</div>
+        <div class="logo-container">
+            <button id="sidebar-toggle" class="sidebar-toggle-btn hidden" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+            <div class="logo" id="app-logo" onclick="handleLogoClick()"><i class="fas fa-arrow-trend-up" style="margin-right: 10px;"></i> Elevate</div>
+        </div>
         <div id="nav-user" class="hidden">
             <span id="user-email-display" style="margin-right: 15px; font-weight: 500; color: var(--text-muted);"></span>
             <button class="btn" style="background: #fee2e2; color: #b91c1c; padding: 8px 16px;" onclick="logout()">Logout</button>
         </div>
     </nav>
+
+    <!-- Navigation Slideout Sidebar Area Structure Component Workspace -->
+    <div id="app-sidebar" class="app-sidebar">
+        <!-- Sidebar Manual Explicit Dismiss Button -->
+        <button class="sidebar-close-btn" onclick="toggleSidebar()"><i class="fas fa-times"></i></button>
+
+        <!-- Add Friends Interaction Container Workspace -->
+        <div class="sidebar-section">
+            <h3><i class="fas fa-user-plus"></i> Add Friends</h3>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">Provide your friend's account unique User Identifier (UID):</p>
+            <div class="sidebar-friend-input-group">
+                <input type="text" id="friend-uid-input" placeholder="Paste user UID here...">
+                <button class="btn btn-primary" onclick="sendFriendRequest()">OK</button>
+            </div>
+        </div>
+
+        <!-- Friend Request Processing Dashboard Block List View -->
+        <div class="sidebar-section">
+            <h3><i class="fas fa-envelope-open"></i> Friend Requests</h3>
+            <ul id="sidebar-requests-list" class="request-list">
+                <li style="color: var(--text-muted); font-size: 0.8rem; text-align: center; padding: 10px 0;">No active inbound requests pending.</li>
+            </ul>
+        </div>
+
+        <!-- Active Context Friends Node Graph Listing -->
+        <div class="sidebar-section">
+            <h3><i class="fas fa-users"></i> Connected Friends</h3>
+            <ul id="sidebar-friends-list" class="friend-list">
+                <li style="color: var(--text-muted); font-size: 0.8rem; text-align: center; padding: 10px 0;">Your friend circle is currently empty.</li>
+            </ul>
+        </div>
+    </div>
 
     <!-- Authentication Section (Sign In & Registration Combined Layout) -->
     <div id="auth-section" class="auth-container fade-in">
@@ -127,6 +211,12 @@
         
         <button id="auth-btn" class="btn btn-primary" onclick="handleEmailPasswordAuth()">Sign In</button>
         
+        <!-- Authentication Workflow Advisory Warning Content Component Panel -->
+        <div class="auth-disclaimer">
+            <i class="fas fa-circle-exclamation"></i>
+            <span><strong>Notice:</strong> Email and password sign up or sign in is not recommended. Google authentication works the best. If email and password fields fail to authorize, please try continuing with Google.</span>
+        </div>
+
         <p style="text-align: center; margin-top: 25px; color: var(--text-muted); font-size: 0.95rem;">
             <span id="auth-toggle-text">New to Elevate?</span> 
             <a href="#" id="auth-toggle-link" onclick="toggleAuthMode()" style="color: var(--primary); text-decoration: none; font-weight: 600;">Create Account</a>
@@ -147,6 +237,11 @@
         <div class="profile-card fade-in">
             <h2 style="margin-bottom: 25px; text-align: center; font-weight: 700; letter-spacing: -0.5px;">Your Profile Space</h2>
             
+            <!-- Account Metadata Identifier Tracker Workspace Panel Component -->
+            <div style="background: #f1f5f9; border-radius: 8px; padding: 10px; margin-bottom: 20px; font-size: 0.75rem; color: var(--text-muted); font-family: monospace; text-align: center;">
+                <strong>Your Account UID:</strong> <span id="display-user-uid-string" style="color: var(--primary); font-weight: bold; user-select: all;"></span>
+            </div>
+
             <!-- Avatar Picture Settings Workspace via Uploadcare CDN Framework -->
             <div class="profile-avatar-container">
                 <img id="profile-pic-view" class="profile-pic" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=250&auto=format&fit=crop&q=80" alt="Profile Picture Layout" />
@@ -170,6 +265,36 @@
                 <i class="fas fa-circle-check"></i> Save Application Details
             </button>
         </div>
+
+        <!-- Real-Time Chat Engine Window Section Module Wrapper -->
+        <div id="chat-workspace-module" class="chat-space-card hidden fade-in">
+            <div class="chat-space-header">
+                <div class="chat-space-header-meta">
+                    <h4 id="chat-friend-name-display">Friend Session</h4>
+                    <p id="chat-friend-uid-display">UID: Omitted</p>
+                </div>
+                <div class="chat-space-header-actions">
+                    <button id="chat-block-toggle-btn" class="btn" style="background: #fff3cd; color: #d97706;" onclick="toggleBlockFriend()"><i class="fas fa-ban"></i> Block User</button>
+                    <button class="btn" style="background: #fde8e8; color: #e11d48;" onclick="reportFriend()"><i class="fas fa-flag"></i> Report</button>
+                    <button class="btn" style="background: #f1f5f9; color: #475569;" onclick="removeFriendRelation()"><i class="fas fa-user-minus"></i> Unfriend</button>
+                </div>
+            </div>
+            
+            <!-- Active Peer Status Typing Tracking Node Layer -->
+            <div id="chat-typing-indicator" class="chat-typing-indicator-bar"></div>
+
+            <!-- Message Log Render Window Layout -->
+            <div id="chat-messages-container" class="chat-space-log"></div>
+
+            <!-- Message Footer Actions Box Section -->
+            <div class="chat-space-footer">
+                <div class="chat-image-uploader-btn-wrapper">
+                    <input type="hidden" role="uploadcare-uploader" id="chat-msg-image-uploader" data-public-key="863f295bb269d2941fae" data-images-only="true" />
+                </div>
+                <input type="text" id="chat-message-text-input" placeholder="Type your message here..." oninput="emitTypingState()">
+                <button class="btn btn-primary" style="width: auto; padding: 12px 20px;" onclick="transmitTextMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
     </div>
 
     <!-- Script Configuration Logic -->
@@ -190,7 +315,9 @@
             getDatabase, 
             ref, 
             set, 
-            onValue 
+            get,
+            onValue,
+            remove
         } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         // Provided Platform Credentials Mapping Configuration Context
@@ -211,6 +338,13 @@
         const googleProvider = new GoogleAuthProvider();
 
         let isLoginMode = true;
+        let isSidebarOpen = false;
+
+        // Active Chat Session Scope Tracking Fields
+        let activeChatFriendUid = null;
+        let activeChatFriendName = "Friend";
+        let activeChatUnsubscribeFunctions = { messages: null, typing: null, blockState: null };
+        let typingTimeoutTracker = null;
 
         // Toast Messages Alerts Notification Manager Component Engine implementation
         window.showToast = (msg, type = 'success') => {
@@ -221,6 +355,373 @@
             toast.innerHTML = `<i class="fas ${icon}" style="color: var(--${type})"></i> <span>${msg}</span>`;
             container.appendChild(toast);
             setTimeout(() => toast.remove(), 4000);
+        };
+
+        // Sidebar Open Close State Management Control System Configuration Pipeline
+        window.toggleSidebar = () => {
+            // Only permit toggle event routines when active authentication context instance is present
+            if (!auth.currentUser) return;
+            isSidebarOpen = !isSidebarOpen;
+            const sidebarElement = document.getElementById('app-sidebar');
+            if (isSidebarOpen) {
+                sidebarElement.classList.add('open');
+            } else {
+                sidebarElement.classList.remove('open');
+            }
+        };
+
+        // Logo action pointer target intersection controller handler
+        window.handleLogoClick = () => {
+            if (auth.currentUser) {
+                window.toggleSidebar();
+            }
+        };
+
+        // Friend graph construction mutation requests deployment pipeline execution context
+        window.sendFriendRequest = async () => {
+            const currentUser = auth.currentUser;
+            if (!currentUser) return;
+
+            const targetUid = document.getElementById('friend-uid-input').value.trim();
+            if (!targetUid) {
+                return showToast("Please input a valid target user UID pattern match.", "error");
+            }
+
+            if (targetUid === currentUser.uid) {
+                return showToast("You cannot enter your own individual user workspace ID path context.", "error");
+            }
+
+            try {
+                // Verify block restrictions path properties before initiating dispatch rules
+                const outboundBlockCheck = await get(ref(db, `blocks/${currentUser.uid}/${targetUid}`));
+                if(outboundBlockCheck.exists()) {
+                    return showToast("You have blocked this target destination profile path identifier.", "error");
+                }
+                const inboundBlockCheck = await get(ref(db, `blocks/${targetUid}/${currentUser.uid}`));
+                if(inboundBlockCheck.exists()) {
+                    return showToast("Unable to process friend relations mapping to this account path setup context.", "error");
+                }
+
+                // Verify account entry presence within master global profiles collection path
+                const userSnapshot = await get(ref(db, `users/${targetUid}`));
+                if (!userSnapshot.exists()) {
+                    return showToast("there is no existing user on the app", "error");
+                }
+
+                const targetUserData = userSnapshot.val();
+                const senderName = document.getElementById('profile-name').value.trim() || currentUser.email;
+
+                // Push relationship state payload tracking indicators into specific targeting routing node parameters
+                await set(ref(db, `friend_requests/${targetUid}/${currentUser.uid}`), {
+                    senderId: currentUser.uid,
+                    senderName: senderName,
+                    senderEmail: currentUser.email,
+                    timestamp: Date.now()
+                });
+
+                showToast("Friend Request Sent");
+                document.getElementById('friend-uid-input').value = "";
+            } catch (err) {
+                showToast(err.message, "error");
+            }
+        };
+
+        // Accept inward structural relational binding link sequence
+        window.acceptFriendRequest = async (senderId, senderName) => {
+            const currentUser = auth.currentUser;
+            if (!currentUser) return;
+
+            try {
+                const myProfileName = document.getElementById('profile-name').value.trim() || currentUser.email;
+                
+                // Write bi-directional relation mapping fields updates
+                await set(ref(db, `friends/${currentUser.uid}/${senderId}`), { uid: senderId, name: senderName });
+                await set(ref(db, `friends/${senderId}/${currentUser.uid}`), { uid: currentUser.uid, name: myProfileName });
+                
+                // Erase completed transactional dynamic request key parameters
+                await remove(ref(db, `friend_requests/${currentUser.uid}/${senderId}`));
+                showToast("Friend relation request pipeline mapping verified successfully!");
+            } catch (err) {
+                showToast(err.message, "error");
+            }
+        };
+
+        // Reject inward structural request path sequence mutations
+        window.declineFriendRequest = async (senderId) => {
+            const currentUser = auth.currentUser;
+            if (!currentUser) return;
+
+            try {
+                await remove(ref(db, `friend_requests/${currentUser.uid}/${senderId}`));
+                showToast("Request records removed from dynamic storage schema.");
+            } catch (err) {
+                showToast(err.message, "error");
+            }
+        };
+
+        // Dynamic sync real-time database listener configurations monitoring social graph structures mapping updates
+        function streamSocialDataMatrix(uid) {
+            // Process inward pending transactions array schema
+            const requestRef = ref(db, `friend_requests/${uid}`);
+            onValue(requestRef, (snapshot) => {
+                const listContainer = document.getElementById('sidebar-requests-list');
+                listContainer.innerHTML = "";
+                
+                const requests = snapshot.val();
+                if (!requests) {
+                    listContainer.innerHTML = '<li style="color: var(--text-muted); font-size: 0.8rem; text-align: center; padding: 10px 0;">No active inbound requests pending.</li>';
+                    return;
+                }
+
+                Object.keys(requests).forEach(senderKey => {
+                    const reqData = requests[senderKey];
+                    const li = document.createElement('li');
+                    li.className = "request-item";
+                    li.innerHTML = `
+                        <span class="request-item-meta">${reqData.senderName}</span>
+                        <span class="request-item-uid">UID: ${senderKey}</span>
+                        <div class="request-item-actions">
+                            <button class="btn btn-primary" style="background:var(--success); color:white;" onclick="acceptFriendRequest('${senderKey}', '${reqData.senderName}')">Accept</button>
+                            <button class="btn btn-primary" style="background:var(--error); color:white;" onclick="declineFriendRequest('${senderKey}')">Decline</button>
+                        </div>
+                    `;
+                    listContainer.appendChild(li);
+                });
+            });
+
+            // Process verified active friends linked parameters array map listing
+            const friendsRef = ref(db, `friends/${uid}`);
+            onValue(friendsRef, (snapshot) => {
+                const friendsContainer = document.getElementById('sidebar-friends-list');
+                friendsContainer.innerHTML = "";
+
+                const friends = snapshot.val();
+                if (!friends) {
+                    friendsContainer.innerHTML = '<li style="color: var(--text-muted); font-size: 0.8rem; text-align: center; padding: 10px 0;">Your friend circle is currently empty.</li>';
+                    return;
+                }
+
+                Object.keys(friends).forEach(friendKey => {
+                    const fData = friends[friendKey];
+                    const li = document.createElement('li');
+                    li.className = "friend-item";
+                    li.innerHTML = `
+                        <span class="request-item-meta" style="color: var(--primary);"><i class="fas fa-user" style="margin-right:5px; font-size:0.75rem;"></i> ${fData.name}</span>
+                        <span class="request-item-uid">UID: ${friendKey}</span>
+                    `;
+                    li.onclick = (e) => {
+                        window.initializeChatSpaceWorkspace(friendKey, fData.name);
+                        window.toggleSidebar();
+                    };
+                    friendsContainer.appendChild(li);
+                });
+            });
+        }
+
+        // Live Communication Matrix Interfacing Sub-Engine Routines
+        window.initializeChatSpaceWorkspace = (friendUid, friendName) => {
+            const currentUser = auth.currentUser;
+            if(!currentUser) return;
+
+            // Clear previous functional tracking registrations to avoid data overlap leakages
+            if (activeChatUnsubscribeFunctions.messages) activeChatUnsubscribeFunctions.messages();
+            if (activeChatUnsubscribeFunctions.typing) activeChatUnsubscribeFunctions.typing();
+            if (activeChatUnsubscribeFunctions.blockState) activeChatUnsubscribeFunctions.blockState();
+            
+            activeChatFriendUid = friendUid;
+            activeChatFriendName = friendName;
+
+            document.getElementById('chat-friend-name-display').innerText = friendName;
+            document.getElementById('chat-friend-uid-display').innerText = `UID: ${friendUid}`;
+            document.getElementById('chat-workspace-module').classList.remove('hidden');
+            document.getElementById('chat-messages-container').innerHTML = "";
+            document.getElementById('chat-typing-indicator').innerText = "";
+            document.getElementById('chat-message-text-input').value = "";
+
+            const combinedChatPartitionTokenId = currentUser.uid < friendUid ? `${currentUser.uid}_${friendUid}` : `${friendUid}_${currentUser.uid}`;
+
+            // Sync dynamic bidirectional block tracking state parameters to alter action metrics
+            const blockRef = ref(db, `blocks/${currentUser.uid}/${friendUid}`);
+            activeChatUnsubscribeFunctions.blockState = onValue(blockRef, (snapshot) => {
+                const blockBtn = document.getElementById('chat-block-toggle-btn');
+                if (snapshot.exists()) {
+                    blockBtn.style.background = "#d1fae5";
+                    blockBtn.style.color = "#065f46";
+                    blockBtn.innerHTML = '<i class="fas fa-unlock"></i> Unblock User';
+                } else {
+                    blockBtn.style.background = "#fff3cd";
+                    blockBtn.style.color = "#d97706";
+                    blockBtn.innerHTML = '<i class="fas fa-ban"></i> Block User';
+                }
+            });
+
+            // Sync structural streaming arrays data payload logs metrics
+            const msgStreamLogRef = ref(db, `chats/${combinedChatPartitionTokenId}/messages`);
+            activeChatUnsubscribeFunctions.messages = onValue(msgStreamLogRef, (snapshot) => {
+                const logWindow = document.getElementById('chat-messages-container');
+                logWindow.innerHTML = "";
+                
+                if(!snapshot.exists()) {
+                    logWindow.innerHTML = '<div style="text-align:center; color: var(--text-muted); font-size: 0.8rem; margin-top:20px;">Secure channel established. End-to-end logging initiated.</div>';
+                    return;
+                }
+
+                snapshot.forEach((childNode) => {
+                    const packet = childNode.val();
+                    const isOutgoing = packet.senderId === currentUser.uid;
+                    
+                    const bubble = document.createElement('div');
+                    bubble.className = `msg-bubble ${isOutgoing ? 'outgoing' : 'incoming'}`;
+                    
+                    let innerPayloadText = `<span>${packet.text || ''}</span>`;
+                    if (packet.imageUrl) {
+                        innerPayloadText += `<img src="${packet.imageUrl}" alt="Attachment Matrix" onclick="window.open('${packet.imageUrl}', '_blank')">`;
+                    }
+                    
+                    const timeStringFormatted = new Date(packet.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    innerPayloadText += `<span class="msg-bubble-meta">${timeStringFormatted}</span>`;
+                    
+                    bubble.innerHTML = innerPayloadText;
+                    logWindow.appendChild(bubble);
+                });
+
+                logWindow.scrollTop = logWindow.scrollHeight;
+            });
+
+            // Monitor incoming active typed mutations markers
+            const typingStateMonitorNodeRef = ref(db, `chats/${combinedChatPartitionTokenId}/typing/${friendUid}`);
+            activeChatUnsubscribeFunctions.typing = onValue(typingStateMonitorNodeRef, (snapshot) => {
+                const indicatorBar = document.getElementById('chat-typing-indicator');
+                if (snapshot.exists() && snapshot.val().isTyping === true) {
+                    indicatorBar.innerText = `${activeChatFriendName} is typing...`;
+                } else {
+                    indicatorBar.innerText = "";
+                }
+            });
+        };
+
+        // Text Message Dispatch Sequence Operations Implementation
+        window.transmitTextMessage = async () => {
+            const currentUser = auth.currentUser;
+            if(!currentUser || !activeChatFriendUid) return;
+
+            const textInputField = document.getElementById('chat-message-text-input');
+            const messageStringContent = textInputField.value.trim();
+            if(!messageStringContent) return;
+
+            try {
+                // Assert structural validation checks against blocking rule bounds
+                const checkOutboundBlock = await get(ref(db, `blocks/${currentUser.uid}/${activeChatFriendUid}`));
+                if(checkOutboundBlock.exists()) return showToast("Unblock this recipient profile to dispatch messages.", "error");
+
+                const checkInboundBlock = await get(ref(db, `blocks/${activeChatFriendUid}/${currentUser.uid}`));
+                if(checkInboundBlock.exists()) return showToast("Message transmission restricted by recipient transport guidelines.", "error");
+
+                const combinedChatPartitionTokenId = currentUser.uid < activeChatFriendUid ? `${currentUser.uid}_${activeChatFriendUid}` : `${activeChatFriendUid}_${currentUser.uid}`;
+                const destinationNodeRef = ref(db, `chats/${combinedChatPartitionTokenId}/messages/${Date.now()}`);
+
+                await set(destinationNodeRef, {
+                    senderId: currentUser.uid,
+                    text: messageStringContent,
+                    timestamp: Date.now()
+                });
+
+                textInputField.value = "";
+                // Terminate active typing states immediately upon complete transmission sequence
+                await set(ref(db, `chats/${combinedChatPartitionTokenId}/typing/${currentUser.uid}`), { isTyping: false });
+            } catch(err) {
+                showToast(err.message, "error");
+            }
+        };
+
+        // Local State Broadcaster Mapping Node Signals
+        window.emitTypingState = () => {
+            const currentUser = auth.currentUser;
+            if(!currentUser || !activeChatFriendUid) return;
+
+            const combinedChatPartitionTokenId = currentUser.uid < activeChatFriendUid ? `${currentUser.uid}_${activeChatFriendUid}` : `${activeChatFriendUid}_${currentUser.uid}`;
+            const clientStateBroadcastRef = ref(db, `chats/${combinedChatPartitionTokenId}/typing/${currentUser.uid}`);
+
+            set(clientStateBroadcastRef, { isTyping: true });
+
+            clearTimeout(typingTimeoutTracker);
+            typingTimeoutTracker = setTimeout(() => {
+                set(clientStateBroadcastRef, { isTyping: false });
+            }, 2500);
+        };
+
+        // Image Attachment Dispatch Pipeline Execution Logic
+        window.transmitImageChatMessage = async (imageUrlString) => {
+            const currentUser = auth.currentUser;
+            if(!currentUser || !activeChatFriendUid) return;
+
+            try {
+                const checkOutboundBlock = await get(ref(db, `blocks/${currentUser.uid}/${activeChatFriendUid}`));
+                if(checkOutboundBlock.exists()) return showToast("Unblock recipient to attach resources.", "error");
+
+                const checkInboundBlock = await get(ref(db, `blocks/${activeChatFriendUid}/${currentUser.uid}`));
+                if(checkInboundBlock.exists()) return showToast("Attachment upload failed due to destination filtering rules.", "error");
+
+                const combinedChatPartitionTokenId = currentUser.uid < activeChatFriendUid ? `${currentUser.uid}_${activeChatFriendUid}` : `${activeChatFriendUid}_${currentUser.uid}`;
+                const destinationNodeRef = ref(db, `chats/${combinedChatPartitionTokenId}/messages/${Date.now()}`);
+
+                await set(destinationNodeRef, {
+                    senderId: currentUser.uid,
+                    text: "Sent an attachment reference image.",
+                    imageUrl: imageUrlString,
+                    timestamp: Date.now()
+                });
+
+                showToast("Image message attached successfully.");
+            } catch(err) {
+                showToast(err.message, "error");
+            }
+        };
+
+        // User Safety Framework Mutation Operations System
+        window.toggleBlockFriend = async () => {
+            const currentUser = auth.currentUser;
+            if(!currentUser || !activeChatFriendUid) return;
+
+            const targetRecordMappingRef = ref(db, `blocks/${currentUser.uid}/${activeChatFriendUid}`);
+            try {
+                const checkState = await get(targetRecordMappingRef);
+                if (checkState.exists()) {
+                    await remove(targetRecordMappingRef);
+                    showToast("User unblocked successfully.");
+                } else {
+                    await set(targetRecordMappingRef, { timestamp: Date.now() });
+                    showToast("User session structural parameters blocked.");
+                }
+            } catch(err) {
+                showToast(err.message, "error");
+            }
+        };
+
+        window.reportFriend = () => {
+            if(!activeChatFriendUid) return;
+            showToast(`Incident logs compiled for target UID: ${activeChatFriendUid}. Security operations team notified.`);
+        };
+
+        window.removeFriendRelation = async () => {
+            const currentUser = auth.currentUser;
+            if(!currentUser || !activeChatFriendUid) return;
+
+            if(!confirm("Are you certain you wish to purge this contextual relational peer binding node list parameter?")) return;
+
+            try {
+                // Clear bi-directional parameters inside friends directory structures
+                await remove(ref(db, `friends/${currentUser.uid}/${activeChatFriendUid}`));
+                await remove(ref(db, `friends/${activeChatFriendUid}/${currentUser.uid}`));
+                
+                showToast("Relationship binding link broken.");
+                
+                // Tear down interface container space gracefully
+                document.getElementById('chat-workspace-module').classList.add('hidden');
+                activeChatFriendUid = null;
+            } catch(err) {
+                showToast(err.message, "error");
+            }
         };
 
         // Navigation state controllers UI toggles rules mapping engine
@@ -349,16 +850,29 @@
                 // If the user registered via normal email/password method and is not yet verified
                 if (!user.emailVerified && !isGoogleUser) {
                     renderActiveInterface('verify-section');
+                    document.getElementById('sidebar-toggle').classList.add('hidden');
                 } else {
                     // Session passes requirements, open up target home view
                     document.getElementById('nav-user').classList.remove('hidden');
                     document.getElementById('user-email-display').innerText = user.email;
+                    document.getElementById('sidebar-toggle').classList.remove('hidden');
+                    document.getElementById('display-user-uid-string').innerText = user.uid;
                     
                     renderActiveInterface('user-dashboard');
                     streamUserProfileData(user.uid);
+                    streamSocialDataMatrix(user.uid);
                 }
             } else {
                 renderActiveInterface('auth-section');
+                document.getElementById('sidebar-toggle').classList.add('hidden');
+                document.getElementById('app-sidebar').classList.remove('open');
+                isSidebarOpen = false;
+                
+                // Reset active conversational subscription listeners upon full de-authentication
+                if (activeChatUnsubscribeFunctions.messages) activeChatUnsubscribeFunctions.messages();
+                if (activeChatUnsubscribeFunctions.typing) activeChatUnsubscribeFunctions.typing();
+                if (activeChatUnsubscribeFunctions.blockState) activeChatUnsubscribeFunctions.blockState();
+                activeChatFriendUid = null;
             }
         });
 
@@ -379,6 +893,15 @@
                 if(fileInfo) {
                     document.getElementById('profile-pic-view').src = fileInfo.cdnUrl;
                     showToast("Avatar temporary cache image tracking upload sequence validated successfully!");
+                }
+            });
+
+            // Initialize separate Uploadcare instance tracking internal conversation thread attachments
+            const chatAttachmentWidget = uploadcare.Widget('#chat-msg-image-uploader');
+            chatAttachmentWidget.onUploadComplete((fileInfo) => {
+                if(fileInfo && fileInfo.cdnUrl) {
+                    window.transmitImageChatMessage(fileInfo.cdnUrl);
+                    chatAttachmentWidget.value(null); // Clear state buffer readying for future iterations
                 }
             });
         });
