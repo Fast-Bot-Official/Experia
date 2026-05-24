@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elevate | Personal Development Platform</title>
+    <title>Experia | Personal Development Platform</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <!-- Uploadcare Widget -->
     <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
 
     <style>
@@ -58,7 +57,7 @@
         .input-group { margin-bottom: 20px; }
         .input-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-muted); }
         input, textarea, select { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; outline: none; transition: 0.2s; background: #fff; }
-        input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+        input:focus, textarea:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
         .divider { display: flex; align-items: center; text-align: center; margin: 20px 0; color: var(--text-muted); font-size: 0.85rem; }
         .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid #e2e8f0; }
         .divider:not(:empty)::before { margin-right: .5em; }
@@ -99,14 +98,14 @@
         .upload-btn-wrapper { margin-top: 5px; }
         .uploadcare--widget__button_type_open { background: #f1f5f9 !important; color: var(--text-main) !important; border: 1px solid #cbd5e1 !important; }
 
-        /* Chat Hub Engine Component Workspace */
-        .chat-space-card { background: white; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-top: 5px solid #10b981; overflow: hidden; display: flex; flex-direction: column; margin-top: 30px; }
+        /* Chat Hub Engine Component Workspace Full-Screen Immersive Modals Update */
+        .chat-space-card { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: white; z-index: 10000; overflow: hidden; display: flex; flex-direction: column; margin-top: 0; border-top: none; }
         .chat-space-header { padding: 20px 25px; background: #ffffff; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
         .chat-space-header-meta h4 { font-size: 1.1rem; font-weight: 700; color: var(--text-main); }
         .chat-space-header-meta p { font-size: 0.75rem; color: var(--text-muted); font-family: monospace; }
-        .chat-space-header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .chat-space-header-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
         .chat-space-header-actions .btn { padding: 6px 12px; font-size: 0.8rem; border-radius: 6px; }
-        .chat-space-log { height: 350px; overflow-y: auto; padding: 25px; background: #f8fafc; display: flex; flex-direction: column; gap: 14px; }
+        .chat-space-log { flex: 1; overflow-y: auto; padding: 25px; background: #f8fafc; display: flex; flex-direction: column; gap: 14px; }
         
         .msg-bubble { max-width: 75%; padding: 12px 16px; border-radius: 12px; font-size: 0.9rem; line-height: 1.4; position: relative; display: flex; flex-direction: column; gap: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
         .msg-bubble.incoming { background: #ffffff; color: var(--text-main); align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #e2e8f0; }
@@ -115,13 +114,13 @@
         .msg-bubble img { max-width: 100%; border-radius: 8px; margin-top: 5px; display: block; border: 1px solid rgba(0,0,0,0.05); }
         
         .chat-typing-indicator-bar { padding: 6px 25px; background: #f1f5f9; font-size: 0.75rem; font-weight: 500; color: var(--primary); min-height: 28px; border-bottom: 1px solid #e2e8f0; font-style: italic; }
-        .chat-space-footer { padding: 15px 25px; background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; gap: 10px; align-items: center; }
+        .chat-space-footer { padding: 15px 25px; background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; gap: 10px; align-items: center; width: 100%; }
         .chat-space-footer input { flex: 1; padding: 12px; font-size: 0.95rem; }
         .chat-space-footer .chat-image-uploader-btn-wrapper .uploadcare--widget { display: inline-block; vertical-align: middle; }
         .chat-space-footer .uploadcare--widget__button_type_open { padding: 11px 14px !important; background: #f1f5f9 !important; border-radius: 8px !important; border: 1px solid #cbd5e1 !important; height: 45px; display: flex; align-items: center; justify-content: center; }
         
         /* Toasts */
-        #toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 9999; }
+        #toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 99999; }
         .toast { background: white; color: var(--text-main); padding: 16px 24px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin-top: 10px; display: flex; align-items: center; gap: 12px; min-width: 300px; border-left: 4px solid var(--primary); animation: slideInRight 0.3s ease-out forwards; }
         .toast.success { border-color: var(--success); }
         .toast.error { border-color: var(--error); }
@@ -144,11 +143,10 @@
 
     <div id="toast-container"></div>
 
-    <!-- Navigation Header -->
     <nav>
         <div class="logo-container">
             <button id="sidebar-toggle" class="sidebar-toggle-btn hidden" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
-            <div class="logo" id="app-logo" onclick="handleLogoClick()"><i class="fas fa-arrow-trend-up" style="margin-right: 10px;"></i> Elevate</div>
+            <div class="logo" id="app-logo" onclick="handleLogoClick()"><i class="fas fa-arrow-trend-up" style="margin-right: 10px;"></i> Experia</div>
         </div>
         <div id="nav-user" class="hidden">
             <span id="user-email-display" style="margin-right: 15px; font-weight: 500; color: var(--text-muted);"></span>
@@ -156,12 +154,9 @@
         </div>
     </nav>
 
-    <!-- Navigation Slideout Sidebar Area Structure Component Workspace -->
     <div id="app-sidebar" class="app-sidebar">
-        <!-- Sidebar Manual Explicit Dismiss Button -->
         <button class="sidebar-close-btn" onclick="toggleSidebar()"><i class="fas fa-times"></i></button>
 
-        <!-- Add Friends Interaction Container Workspace -->
         <div class="sidebar-section">
             <h3><i class="fas fa-user-plus"></i> Add Friends</h3>
             <p style="font-size: 0.8rem; color: var(--text-muted);">Provide your friend's account unique User Identifier (UID):</p>
@@ -171,7 +166,6 @@
             </div>
         </div>
 
-        <!-- Friend Request Processing Dashboard Block List View -->
         <div class="sidebar-section">
             <h3><i class="fas fa-envelope-open"></i> Friend Requests</h3>
             <ul id="sidebar-requests-list" class="request-list">
@@ -179,7 +173,6 @@
             </ul>
         </div>
 
-        <!-- Active Context Friends Node Graph Listing -->
         <div class="sidebar-section">
             <h3><i class="fas fa-users"></i> Connected Friends</h3>
             <ul id="sidebar-friends-list" class="friend-list">
@@ -188,17 +181,23 @@
         </div>
     </div>
 
-    <!-- Authentication Section (Sign In & Registration Combined Layout) -->
     <div id="auth-section" class="auth-container fade-in">
         <h2 id="auth-title" style="margin-bottom: 25px; text-align: center;">Welcome Back</h2>
         
-        <!-- Social Google Action -->
         <button class="btn btn-google" onclick="handleGoogleAuth()">
             <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google Logo" style="width:18px; height:18px; margin-right:8px;">
             <span id="google-btn-text">Continue with Google</span>
         </button>
 
         <div class="divider">or use credentials</div>
+
+        <div class="input-group id="role-selection-wrapper" style="margin-bottom: 20px;">
+            <label for="user-role-select">Select Profile Identity Role</label>
+            <select id="user-role-select">
+                <option value="Candidate">Candidate</option>
+                <option value="Recruiter">Recruiter</option>
+            </select>
+        </div>
 
         <div class="input-group">
             <label>Email Address</label>
@@ -211,19 +210,17 @@
         
         <button id="auth-btn" class="btn btn-primary" onclick="handleEmailPasswordAuth()">Sign In</button>
         
-        <!-- Authentication Workflow Advisory Warning Content Component Panel -->
         <div class="auth-disclaimer">
             <i class="fas fa-circle-exclamation"></i>
             <span><strong>Notice:</strong> Email and password sign up or sign in is not recommended. Google authentication works the best. If email and password fields fail to authorize, please try continuing with Google.</span>
         </div>
 
         <p style="text-align: center; margin-top: 25px; color: var(--text-muted); font-size: 0.95rem;">
-            <span id="auth-toggle-text">New to Elevate?</span> 
+            <span id="auth-toggle-text">New to Experia?</span> 
             <a href="#" id="auth-toggle-link" onclick="toggleAuthMode()" style="color: var(--primary); text-decoration: none; font-weight: 600;">Create Account</a>
         </p>
     </div>
 
-    <!-- Email Verification Intercept Screen -->
     <div id="verify-section" class="auth-container hidden bounce-in" style="text-align: center;">
         <i class="fas fa-envelope-open-text" style="font-size: 3.5rem; color: var(--primary); margin-bottom: 20px;"></i>
         <h2>Verify your email</h2>
@@ -232,17 +229,14 @@
         <button class="btn btn-primary" onclick="window.location.reload()">I've Verified My Account</button>
     </div>
 
-    <!-- Authenticated User App Home Dashboard View -->
     <div id="user-dashboard" class="dashboard hidden">
         <div class="profile-card fade-in">
             <h2 style="margin-bottom: 25px; text-align: center; font-weight: 700; letter-spacing: -0.5px;">Your Profile Space</h2>
             
-            <!-- Account Metadata Identifier Tracker Workspace Panel Component -->
             <div style="background: #f1f5f9; border-radius: 8px; padding: 10px; margin-bottom: 20px; font-size: 0.75rem; color: var(--text-muted); font-family: monospace; text-align: center;">
                 <strong>Your Account UID:</strong> <span id="display-user-uid-string" style="color: var(--primary); font-weight: bold; user-select: all;"></span>
             </div>
 
-            <!-- Avatar Picture Settings Workspace via Uploadcare CDN Framework -->
             <div class="profile-avatar-container">
                 <img id="profile-pic-view" class="profile-pic" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=250&auto=format&fit=crop&q=80" alt="Profile Picture Layout" />
                 <div class="upload-btn-wrapper">
@@ -250,10 +244,17 @@
                 </div>
             </div>
 
-            <!-- Profile Fields Schema Configuration -->
             <div class="input-group">
                 <label><i class="far fa-user"></i> Display Name</label>
                 <input type="text" id="profile-name" placeholder="Enter your full name">
+            </div>
+
+            <div class="input-group">
+                <label><i class="fas fa-briefcase"></i> Selected Registration Role</label>
+                <select id="profile-role-display">
+                    <option value="Candidate">Candidate</option>
+                    <option value="Recruiter">Recruiter</option>
+                </select>
             </div>
 
             <div class="input-group">
@@ -266,7 +267,6 @@
             </button>
         </div>
 
-        <!-- Real-Time Chat Engine Window Section Module Wrapper -->
         <div id="chat-workspace-module" class="chat-space-card hidden fade-in">
             <div class="chat-space-header">
                 <div class="chat-space-header-meta">
@@ -277,16 +277,14 @@
                     <button id="chat-block-toggle-btn" class="btn" style="background: #fff3cd; color: #d97706;" onclick="toggleBlockFriend()"><i class="fas fa-ban"></i> Block User</button>
                     <button class="btn" style="background: #fde8e8; color: #e11d48;" onclick="reportFriend()"><i class="fas fa-flag"></i> Report</button>
                     <button class="btn" style="background: #f1f5f9; color: #475569;" onclick="removeFriendRelation()"><i class="fas fa-user-minus"></i> Unfriend</button>
+                    <button class="btn" style="background: #e2e8f0; color: #1e293b; font-weight: bold; font-size: 0.9rem;" onclick="closeFullScreenChatSession()"><i class="fas fa-compress-arrows-alt"></i> Close Chat</button>
                 </div>
             </div>
             
-            <!-- Active Peer Status Typing Tracking Node Layer -->
             <div id="chat-typing-indicator" class="chat-typing-indicator-bar"></div>
 
-            <!-- Message Log Render Window Layout -->
             <div id="chat-messages-container" class="chat-space-log"></div>
 
-            <!-- Message Footer Actions Box Section -->
             <div class="chat-space-footer">
                 <div class="chat-image-uploader-btn-wrapper">
                     <input type="hidden" role="uploadcare-uploader" id="chat-msg-image-uploader" data-public-key="863f295bb269d2941fae" data-images-only="true" />
@@ -297,7 +295,6 @@
         </div>
     </div>
 
-    <!-- Script Configuration Logic -->
     <script type="module">
         // Import authorized global modern components via CDN paths
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -345,6 +342,15 @@
         let activeChatFriendName = "Friend";
         let activeChatUnsubscribeFunctions = { messages: null, typing: null, blockState: null };
         let typingTimeoutTracker = null;
+
+        // Close full screen overlay component routine handler
+        window.closeFullScreenChatSession = () => {
+            document.getElementById('chat-workspace-module').classList.add('hidden');
+            if (activeChatUnsubscribeFunctions.messages) activeChatUnsubscribeFunctions.messages();
+            if (activeChatUnsubscribeFunctions.typing) activeChatUnsubscribeFunctions.typing();
+            if (activeChatUnsubscribeFunctions.blockState) activeChatUnsubscribeFunctions.blockState();
+            activeChatFriendUid = null;
+        };
 
         // Toast Messages Alerts Notification Manager Component Engine implementation
         window.showToast = (msg, type = 'success') => {
@@ -735,7 +741,7 @@
             document.getElementById('auth-title').innerText = isLoginMode ? "Welcome Back" : "Create Account";
             document.getElementById('auth-btn').innerText = isLoginMode ? "Sign In" : "Register and Continue";
             document.getElementById('google-btn-text').innerText = isLoginMode ? "Continue with Google" : "Sign Up with Google";
-            document.getElementById('auth-toggle-text').innerText = isLoginMode ? "New to Elevate?" : "Already have an account?";
+            document.getElementById('auth-toggle-text').innerText = isLoginMode ? "New to Experia?" : "Already have an account?";
             document.getElementById('auth-toggle-link').innerText = isLoginMode ? "Create Account" : "Sign In";
         };
 
@@ -743,6 +749,7 @@
         window.handleEmailPasswordAuth = async () => {
             const email = document.getElementById('email').value.trim();
             const pass = document.getElementById('password').value;
+            const role = document.getElementById('user-role-select').value;
             
             if(!email || !pass) return showToast("Please completely input all text login fields.", "error");
 
@@ -758,6 +765,16 @@
                 } else {
                     // Registration sequence structure mapping pipeline execution context
                     const credentials = await createUserWithEmailAndPassword(auth, email, pass);
+                    
+                    // Immediately initialize profile database reference with Selected Role type parameters
+                    await set(ref(db, `users/${credentials.user.uid}`), {
+                        name: email.split('@')[0],
+                        role: role,
+                        description: "",
+                        profilePic: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=250&auto=format&fit=crop&q=80",
+                        lastUpdated: Date.now()
+                    });
+
                     await sendEmailVerification(credentials.user);
                     showToast("Verification dispatch context notification complete! Review your inbox rules configuration.");
                 }
@@ -772,7 +789,21 @@
         // Provider authentication process routing setup context rules engine handler implementation
         window.handleGoogleAuth = async () => {
             try {
+                const role = document.getElementById('user-role-select').value;
                 const outcome = await signInWithPopup(auth, googleProvider);
+                
+                // Perform check on existence to make sure we don't clear pre-existing parameters
+                const profileCheck = await get(ref(db, `users/${outcome.user.uid}`));
+                if (!profileCheck.exists()) {
+                    await set(ref(db, `users/${outcome.user.uid}`), {
+                        name: outcome.user.displayName || outcome.user.email.split('@')[0],
+                        role: role,
+                        description: "",
+                        profilePic: outcome.user.photoURL || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=250&auto=format&fit=crop&q=80",
+                        lastUpdated: Date.now()
+                    });
+                }
+                
                 showToast(`Successfully initialized platform workspace session as: ${outcome.user.displayName || outcome.user.email}`);
             } catch (error) {
                 showToast(error.message, "error");
@@ -802,6 +833,7 @@
             const nameValue = document.getElementById('profile-name').value.trim();
             const descValue = document.getElementById('profile-description').value.trim();
             const picUrlValue = document.getElementById('profile-pic-uploader').value;
+            const roleValue = document.getElementById('profile-role-display').value;
 
             const saveBtn = document.getElementById('save-profile-btn');
             saveBtn.disabled = true;
@@ -810,6 +842,7 @@
             try {
                 await set(ref(db, `users/${user.uid}`), {
                     name: nameValue,
+                    role: roleValue,
                     description: descValue,
                     profilePic: picUrlValue || document.getElementById('profile-pic-view').src,
                     lastUpdated: Date.now()
@@ -831,6 +864,7 @@
                 if(details) {
                     if(details.name) document.getElementById('profile-name').value = details.name;
                     if(details.description) document.getElementById('profile-description').value = details.description;
+                    if(details.role) document.getElementById('profile-role-display').value = details.role;
                     if(details.profilePic) {
                         document.getElementById('profile-pic-view').src = details.profilePic;
                         // Synchronize internal instance properties inside Uploadcare programmatic contexts
