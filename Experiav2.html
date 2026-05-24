@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elevate | Personal Development Platform</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Uploadcare Widget -->
+    <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --error: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+
+        /* Utility Classes */
+        .hidden { display: none !important; }
+        .btn { cursor: pointer; padding: 12px 24px; border-radius: 8px; border: none; font-weight: 600; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-primary { background: var(--primary); color: white; width: 100%; }
+        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
+        .btn-google { background: #ffffff; color: #334155; border: 1px solid #cbd5e1; width: 100%; margin-bottom: 12px; }
+        .btn-google:hover { background: #f8fafc; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .btn:active { transform: scale(0.95); }
+        .btn:disabled { background: #cbd5e1; cursor: not-allowed; }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav { padding: 1rem 3%; }
+            .dashboard { padding: 0 15px; margin: 20px auto; }
+            .auth-container { margin: 40px 15px; padding: 25px; }
+            h1 { font-size: 1.5rem; }
+        }
+
+        /* Navigation */
+        nav { background: white; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); letter-spacing: -1px; cursor: pointer; }
+
+        /* Auth Container */
+        .auth-container { max-width: 420px; margin: 60px auto; padding: 40px; background: white; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-muted); }
+        input, textarea, select { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; outline: none; transition: 0.2s; background: #fff; }
+        input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+        .divider { display: flex; align-items: center; text-align: center; margin: 20px 0; color: var(--text-muted); font-size: 0.85rem; }
+        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid #e2e8f0; }
+        .divider:not(:empty)::before { margin-right: .5em; }
+        .divider:not(:empty)::after { margin-left: .5em; }
+
+        /* Dashboard & Profile Layout */
+        .dashboard { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        .profile-card { background: white; padding: 35px; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-top: 5px solid var(--primary); }
+        
+        .profile-avatar-container { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; position: relative; }
+        .profile-pic { width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 4px solid white; box-shadow: 0 4px 14px rgba(0,0,0,0.1); background: #f1f5f9; margin-bottom: 15px; }
+        
+        /* Custom Styling for Uploadcare inside our structure */
+        .upload-btn-wrapper { margin-top: 5px; }
+        .uploadcare--widget__button_type_open { background: #f1f5f9 !important; color: var(--text-main) !important; border: 1px solid #cbd5e1 !important; }
+
+        /* Toasts */
+        #toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 9999; }
+        .toast { background: white; color: var(--text-main); padding: 16px 24px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin-top: 10px; display: flex; align-items: center; gap: 12px; min-width: 300px; border-left: 4px solid var(--primary); animation: slideInRight 0.3s ease-out forwards; }
+        .toast.success { border-color: var(--success); }
+        .toast.error { border-color: var(--error); }
+
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes bounceIn { 
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        .fade-in { animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .slide-in { animation: slideInRight 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .bounce-in { animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    </style>
+</head>
+<body>
+
+    <div id="toast-container"></div>
+
+    <!-- Navigation Header -->
+    <nav>
+        <div class="logo"><i class="fas fa-arrow-trend-up" style="margin-right: 10px;"></i> Elevate</div>
+        <div id="nav-user" class="hidden">
+            <span id="user-email-display" style="margin-right: 15px; font-weight: 500; color: var(--text-muted);"></span>
+            <button class="btn" style="background: #fee2e2; color: #b91c1c; padding: 8px 16px;" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Authentication Section (Sign In & Registration Combined Layout) -->
+    <div id="auth-section" class="auth-container fade-in">
+        <h2 id="auth-title" style="margin-bottom: 25px; text-align: center;">Welcome Back</h2>
+        
+        <!-- Social Google Action -->
+        <button class="btn btn-google" onclick="handleGoogleAuth()">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google Logo" style="width:18px; height:18px; margin-right:8px;">
+            <span id="google-btn-text">Continue with Google</span>
+        </button>
+
+        <div class="divider">or use credentials</div>
+
+        <div class="input-group">
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="you@example.com">
+        </div>
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" id="password" placeholder="••••••••">
+        </div>
+        
+        <button id="auth-btn" class="btn btn-primary" onclick="handleEmailPasswordAuth()">Sign In</button>
+        
+        <p style="text-align: center; margin-top: 25px; color: var(--text-muted); font-size: 0.95rem;">
+            <span id="auth-toggle-text">New to Elevate?</span> 
+            <a href="#" id="auth-toggle-link" onclick="toggleAuthMode()" style="color: var(--primary); text-decoration: none; font-weight: 600;">Create Account</a>
+        </p>
+    </div>
+
+    <!-- Email Verification Intercept Screen -->
+    <div id="verify-section" class="auth-container hidden bounce-in" style="text-align: center;">
+        <i class="fas fa-envelope-open-text" style="font-size: 3.5rem; color: var(--primary); margin-bottom: 20px;"></i>
+        <h2>Verify your email</h2>
+        <p style="color: var(--text-muted); margin: 20px 0; font-size: 0.95rem;">We have sent an authentication link to your email setup. Please verify your inbox and refresh to activate your profile dashboard.</p>
+        <button id="resend-btn" class="btn btn-primary" style="background: #64748b; margin-bottom: 12px;" onclick="resendVerification()">Resend Email</button>
+        <button class="btn btn-primary" onclick="window.location.reload()">I've Verified My Account</button>
+    </div>
+
+    <!-- Authenticated User App Home Dashboard View -->
+    <div id="user-dashboard" class="dashboard hidden">
+        <div class="profile-card fade-in">
+            <h2 style="margin-bottom: 25px; text-align: center; font-weight: 700; letter-spacing: -0.5px;">Your Profile Space</h2>
+            
+            <!-- Avatar Picture Settings Workspace via Uploadcare CDN Framework -->
+            <div class="profile-avatar-container">
+                <img id="profile-pic-view" class="profile-pic" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=250&auto=format&fit=crop&q=80" alt="Profile Picture Layout" />
+                <div class="upload-btn-wrapper">
+                    <input type="hidden" role="uploadcare-uploader" id="profile-pic-uploader" data-public-key="863f295bb269d2941fae" data-images-only="true" />
+                </div>
+            </div>
+
+            <!-- Profile Fields Schema Configuration -->
+            <div class="input-group">
+                <label><i class="far fa-user"></i> Display Name</label>
+                <input type="text" id="profile-name" placeholder="Enter your full name">
+            </div>
+
+            <div class="input-group">
+                <label><i class="far fa-file-alt"></i> Bio Description</label>
+                <textarea id="profile-description" rows="4" placeholder="Tell us about yourself, goals, and passions..."></textarea>
+            </div>
+
+            <button id="save-profile-btn" class="btn btn-primary" onclick="saveProfileData()">
+                <i class="fas fa-circle-check"></i> Save Application Details
+            </button>
+        </div>
+    </div>
+
+    <!-- Script Configuration Logic -->
+    <script type="module">
+        // Import authorized global modern components via CDN paths
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            onAuthStateChanged, 
+            sendEmailVerification, 
+            signOut,
+            GoogleAuthProvider,
+            signInWithPopup
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { 
+            getDatabase, 
+            ref, 
+            set, 
+            onValue 
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        // Provided Platform Credentials Mapping Configuration Context
+        const firebaseConfig = {
+          apiKey: "AIzaSyC_6aie1pWY1qTADCD1C-OQyZ6OH0QH0ak",
+          authDomain: "experiaintelligence.firebaseapp.com",
+          databaseURL: "https://experiaintelligence-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "experiaintelligence",
+          storageBucket: "experiaintelligence.firebasestorage.app",
+          messagingSenderId: "975570084324",
+          appId: "1:975570084324:web:ff75316e0e32bcf1e8a7f1"
+        };
+
+        // Core App Core Modules Execution Mapping Rules
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+        const googleProvider = new GoogleAuthProvider();
+
+        let isLoginMode = true;
+
+        // Toast Messages Alerts Notification Manager Component Engine implementation
+        window.showToast = (msg, type = 'success') => {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle';
+            toast.innerHTML = `<i class="fas ${icon}" style="color: var(--${type})"></i> <span>${msg}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        };
+
+        // Navigation state controllers UI toggles rules mapping engine
+        window.toggleAuthMode = () => {
+            isLoginMode = !isLoginMode;
+            const authContainer = document.getElementById('auth-section');
+            authContainer.classList.remove('fade-in');
+            void authContainer.offsetWidth; 
+            authContainer.classList.add('fade-in');
+
+            document.getElementById('auth-title').innerText = isLoginMode ? "Welcome Back" : "Create Account";
+            document.getElementById('auth-btn').innerText = isLoginMode ? "Sign In" : "Register and Continue";
+            document.getElementById('google-btn-text').innerText = isLoginMode ? "Continue with Google" : "Sign Up with Google";
+            document.getElementById('auth-toggle-text').innerText = isLoginMode ? "New to Elevate?" : "Already have an account?";
+            document.getElementById('auth-toggle-link').innerText = isLoginMode ? "Create Account" : "Sign In";
+        };
+
+        // Process Credentials Mode Submissions System
+        window.handleEmailPasswordAuth = async () => {
+            const email = document.getElementById('email').value.trim();
+            const pass = document.getElementById('password').value;
+            
+            if(!email || !pass) return showToast("Please completely input all text login fields.", "error");
+
+            const btn = document.getElementById('auth-btn');
+            btn.disabled = true;
+            btn.innerText = "Processing context authentication...";
+
+            try {
+                if (isLoginMode) {
+                    // Traditional Account Identity Verification Route
+                    await signInWithEmailAndPassword(auth, email, pass);
+                    showToast("System access verification success!");
+                } else {
+                    // Registration sequence structure mapping pipeline execution context
+                    const credentials = await createUserWithEmailAndPassword(auth, email, pass);
+                    await sendEmailVerification(credentials.user);
+                    showToast("Verification dispatch context notification complete! Review your inbox rules configuration.");
+                }
+            } catch (error) { 
+                showToast(error.message, "error"); 
+            } finally {
+                btn.disabled = false;
+                btn.innerText = isLoginMode ? "Sign In" : "Register and Continue";
+            }
+        };
+
+        // Provider authentication process routing setup context rules engine handler implementation
+        window.handleGoogleAuth = async () => {
+            try {
+                const outcome = await signInWithPopup(auth, googleProvider);
+                showToast(`Successfully initialized platform workspace session as: ${outcome.user.displayName || outcome.user.email}`);
+            } catch (error) {
+                showToast(error.message, "error");
+            }
+        };
+
+        // Identity session closing state routing handlers context setup rules pipeline
+        window.logout = () => signOut(auth).then(() => window.location.reload());
+
+        // Process security verification execution loops context logic routing controls triggers
+        window.resendVerification = async () => {
+            if(auth.currentUser) {
+                try {
+                    await sendEmailVerification(auth.currentUser);
+                    showToast("A new registration context validation link has been dispatched.");
+                } catch(err) {
+                    showToast(err.message, "error");
+                }
+            }
+        };
+
+        // Account management data mutations mapping persistence layer operations 
+        window.saveProfileData = async () => {
+            const user = auth.currentUser;
+            if(!user) return;
+
+            const nameValue = document.getElementById('profile-name').value.trim();
+            const descValue = document.getElementById('profile-description').value.trim();
+            const picUrlValue = document.getElementById('profile-pic-uploader').value;
+
+            const saveBtn = document.getElementById('save-profile-btn');
+            saveBtn.disabled = true;
+            saveBtn.innerText = "Saving settings profile metrics...";
+
+            try {
+                await set(ref(db, `users/${user.uid}`), {
+                    name: nameValue,
+                    description: descValue,
+                    profilePic: picUrlValue || document.getElementById('profile-pic-view').src,
+                    lastUpdated: Date.now()
+                });
+                showToast("Application settings mutations successfully saved to Realtime cloud storage data blocks.");
+            } catch(error) {
+                showToast(error.message, "error");
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<i class="fas fa-circle-check"></i> Save Application Details';
+            }
+        };
+
+        // Realtime sync fetching sequence mappings loop architecture
+        function streamUserProfileData(uid) {
+            const userDataRef = ref(db, `users/${uid}`);
+            onValue(userDataRef, (snapshot) => {
+                const details = snapshot.val();
+                if(details) {
+                    if(details.name) document.getElementById('profile-name').value = details.name;
+                    if(details.description) document.getElementById('profile-description').value = details.description;
+                    if(details.profilePic) {
+                        document.getElementById('profile-pic-view').src = details.profilePic;
+                        // Synchronize internal instance properties inside Uploadcare programmatic contexts
+                        const widget = uploadcare.Widget('#profile-pic-uploader');
+                        widget.value(details.profilePic);
+                    }
+                }
+            });
+        }
+
+        // Initialize instance context listeners monitoring current state structures configuration
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // Read configuration flags. Note: If logged via Google, providerData array lists 'google.com'
+                const isGoogleUser = user.providerData.some(p => p.providerId === 'google.com');
+                
+                // If the user registered via normal email/password method and is not yet verified
+                if (!user.emailVerified && !isGoogleUser) {
+                    renderActiveInterface('verify-section');
+                } else {
+                    // Session passes requirements, open up target home view
+                    document.getElementById('nav-user').classList.remove('hidden');
+                    document.getElementById('user-email-display').innerText = user.email;
+                    
+                    renderActiveInterface('user-dashboard');
+                    streamUserProfileData(user.uid);
+                }
+            } else {
+                renderActiveInterface('auth-section');
+            }
+        });
+
+        // UI rendering manager view selector rules component engine logic
+        function renderActiveInterface(activeSectionId) {
+            ['auth-section', 'verify-section', 'user-dashboard'].forEach(sec => {
+                document.getElementById(sec).classList.add('hidden');
+            });
+            const element = document.getElementById(activeSectionId);
+            element.classList.remove('hidden');
+            element.classList.add('fade-in');
+        }
+
+        // Configure uploadcare dynamic image update listeners context
+        document.addEventListener("DOMContentLoaded", () => {
+            const avatarWidget = uploadcare.Widget('#profile-pic-uploader');
+            avatarWidget.onUploadComplete((fileInfo) => {
+                if(fileInfo) {
+                    document.getElementById('profile-pic-view').src = fileInfo.cdnUrl;
+                    showToast("Avatar temporary cache image tracking upload sequence validated successfully!");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
